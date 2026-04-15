@@ -199,6 +199,24 @@ For production deployments where the frontend and backend are on separate origin
 VITE_API_URL=https://your-api-domain.com
 ```
 
+## Vercel Deployment
+
+Deploy the `Frontend/` folder as the Vercel project root. Keep the Express API on a separate Node host because the backend uses long-lived HTTP and Socket.io connections.
+
+Required production settings:
+
+```env
+VITE_API_URL=https://your-api-domain.com/api
+```
+
+If your backend enforces CORS, set:
+
+```env
+CORS_ORIGIN=https://your-app.vercel.app
+```
+
+The included `vercel.json` preserves React Router routes so direct visits to pages like `/dashboard` or `/tasks/123` work on refresh.
+
 ---
 
 ## Scripts
