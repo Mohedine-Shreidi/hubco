@@ -142,6 +142,33 @@ API available at **http://localhost:5000**.
 
 ---
 
+## Production Deployment
+
+This API should run on a Node host that supports a long-lived process and Socket.io, such as Render, Railway, Fly.io, or a VPS. Do not hardcode `DATABASE_URL` in the backend source.
+
+Minimum production environment variables:
+
+```env
+PORT=5000
+NODE_ENV=production
+DATABASE_URL=postgresql://user:password@your-host:5432/postgres?sslmode=require
+JWT_SECRET=generate-a-long-random-secret
+JWT_EXPIRES_IN=7d
+BCRYPT_ROUNDS=10
+CORS_ORIGIN=https://your-frontend.vercel.app
+```
+
+Deployment flow:
+
+1. Provision a PostgreSQL database and confirm the connection string works with `psql`.
+2. Run `supabase_schema.sql` and the migrations against the production database.
+3. Deploy the backend using `Backend/Dockerfile` or `npm start` on your host.
+4. Set `VITE_API_URL` in the Vercel frontend to `https://your-backend-domain.com/api`.
+
+The API exposes `/health` for simple uptime checks.
+
+---
+
 ## RBAC & Cohort Isolation
 
 Every resource is protected at two layers:
